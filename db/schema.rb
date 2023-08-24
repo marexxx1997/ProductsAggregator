@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_21_150251) do
+ActiveRecord::Schema.define(version: 2023_08_23_145327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,14 +57,46 @@ ActiveRecord::Schema.define(version: 2023_08_21_150251) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "product_audit_images", force: :cascade do |t|
+    t.string "image_url"
+    t.bigint "product_id"
+    t.bigint "scan_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_product_audit_images_on_product_id"
+    t.index ["scan_id"], name: "index_product_audit_images_on_scan_id"
+  end
+
+  create_table "product_audit_prices", force: :cascade do |t|
+    t.float "price"
+    t.bigint "product_audit_image_id"
+    t.bigint "platform_product_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["platform_product_id"], name: "index_product_audit_prices_on_platform_product_id"
+    t.index ["product_audit_image_id"], name: "index_product_audit_prices_on_product_audit_image_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "scans", force: :cascade do |t|
+    t.bigint "platform_product_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["platform_product_id"], name: "index_scans_on_platform_product_id"
+  end
+
   add_foreign_key "candidates", "platform_products"
   add_foreign_key "platform_product_transitions", "platform_products"
   add_foreign_key "platform_products", "platforms"
   add_foreign_key "platform_products", "products"
+  add_foreign_key "product_audit_images", "products"
+  add_foreign_key "product_audit_images", "scans"
+  add_foreign_key "product_audit_prices", "platform_products"
+  add_foreign_key "product_audit_prices", "product_audit_images"
+  add_foreign_key "scans", "platform_products"
 end

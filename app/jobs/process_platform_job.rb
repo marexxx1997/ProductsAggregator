@@ -10,20 +10,14 @@ class ProcessPlatformJob < ApplicationJob
     platform = platform_product.platform
     product_name = platform_product.product.name
 
-
     return unless platform
-
    
     search_url = platform.platform_url(product_name)
-
 
     platform_product.transition_to!(:in_progress)
 
     doc = Nokogiri::HTML(URI.open(search_url))
-
     # puts "#{doc}"
-
-      
     products = doc.css(' .product')
 
     products.each do |product|

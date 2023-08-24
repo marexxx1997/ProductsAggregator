@@ -56,8 +56,10 @@
             acceptButton.addEventListener('click', function() {
               var candidateId = this.getAttribute('data-candidate-id'); 
               var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+              var confirmation = window.confirm('Are you sure you want to approve this candidate?');
               console.log(">>>>>>>>>>>>>>>>>>>>>")
               console.log(candidateId)
+              if (confirmation){
               var updateStatusXhr = new XMLHttpRequest();
               updateStatusXhr.open('POST', '/platformproducts/update_platform_product_status', true);
               updateStatusXhr.setRequestHeader('Content-Type', 'application/json');
@@ -65,6 +67,7 @@
               updateStatusXhr.send(JSON.stringify({ candidate_id: candidateId }));
 
               modal.hide();
+              }
           });
         });
         }
