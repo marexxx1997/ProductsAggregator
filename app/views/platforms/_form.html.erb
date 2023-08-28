@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <%= form_with(model: platform, local: true) do |form| %>
+        <% if platform.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(platform.errors.count, "error") %> prohibited this platform from being saved:</h2>
+  
+            <ul>
+              <% platform.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+  
+        <div class="field mb-3">
+          <%= form.label :name, class: 'form-label'%>
+          <%= form.text_field :name, class: 'form-control'%>
+        </div>
+  
+        <div class="field mb-3">
+          <%#= form.label :logo_url, "Logo", for: 'formFile'%>
+          <%#= form.text_field :logo_url, class: 'form-control', type: 'file', id: 'formFile' %>
+          <%= form.label :logo_url, "Logo", class: 'form-label'%>
+          <%= form.text_field :logo_url, class: 'form-control',  id:'logo_url'%>
+        </div>
+  
+        <div class="field mb-3">  
+          <%= form.label :url, "URL", class: 'form-label'%>
+          <%= form.text_field :url, class: 'form-control' %>
+        </div>
+       
+        <div class="actions mb-3 row">
+          <div class="col text-center">
+            <%= link_to 'Back', platforms_path, class: 'btn btn-secondary'%>
+            <%= form.submit 'Save', class: 'btn btn-success' %>
+          </div>
+        </div>
+
+         <div class="col-md-4 offset-4 text-center mt-5">
+          <img width="25%" id="logoPicturePreview"/>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= javascript_pack_tag 'logo_preview' %>

@@ -1,0 +1,34 @@
+ <% if notice %>
+  <aside class="alert alert-success alert-dismissible fade show mt-3" id="notice"><%= notice %></aside>
+ <% end %> 
+
+<h1>Scanned Audits</h1>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col text-end">
+    </div>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Platform</th>
+      <th>Price</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+
+    <tbody>
+    <%# @scans.each do |scan| %>
+      <tr>
+        <td class="audit_name"></td>
+        <td class="audit_platform"></td>
+        <td class="audit_price"></td>
+        <td class="scan_status"></td>
+      </tr>
+    <%# end %>
+    </tbody>
+</table>

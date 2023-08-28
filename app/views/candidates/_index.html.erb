@@ -1,0 +1,19 @@
+<h2>Candidates for Platform</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Image</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @candidates.each do |candidate| %>
+      <tr>
+        <td><%= candidate.name %></td>
+        <td><%= image_tag candidate.image_url, alt: candidate.name, height: '50px', width: '50px' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
