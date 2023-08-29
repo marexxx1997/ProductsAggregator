@@ -1,0 +1,105 @@
+<h2>Candidates</h2>
+
+<table class="table candidate-table">
+  <thead>
+    <tr>
+      <th></th>
+      <% Platform.all.each do |platform| %>
+        <th class="text-center"><%= platform.name %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+  <% Product.all.reverse_each do |product|%>
+    <tr>
+    <% product_name = product.name%>
+    <td class="align-middle text-center fw-bold"><%= product_name%></td>
+      <% Platform.all.each do |platform| %>
+          <% platform_product = PlatformProduct.find_by(platform: platform, product: product) %>
+          <% if platform_product %>
+            <% current_state = platform_product.current_state %>
+            <% if current_state == 'located' %>
+              <% candidate = Candidate.where(platform_product_id: platform_product.id).order(created_at: :asc).first %>
+            <% elsif current_state == 'approved'%>
+              <% candidate = Candidate.find_by(platform_product_id: platform_product.id, selected: true) %>
+            <% end %>
+            <td class="text-center align-middle position-relative td-candidate">
+              <% if candidate %>
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#candidatesModal" data-platform-id="<%= platform.id %>" data-platform-name="<%= platform.name %>" data-platform_product-id="<%= platform_product.id%>">
+                  <%= image_tag candidate.image_url, alt: candidate.name, height: '150px', width: '150px' %>
+                  <h6 class="candidate-heading-height"><%= candidate.name %><br></h6>
+                  <% if current_state == 'approved' %>
+                    <span class="badge text-bg-success fs-6">Approved</span>
+                   <% elsif current_state == 'located' %>
+                    <span class="badge text-bg-primary fs-6">Located</span>
+                  <% end %>
+                </button><br>
+              <% else %>
+                <div class="row m-0 justify-content-center">
+                  <div class="row">
+                    <h6>No candidate available</h6>
+                  </div>
+                  <div class="row position-absolute bottom-0 d-inline mb-3">
+                    <span class="badge text-bg-danger fs-6 d-inline">Error</span>
+                  </div>
+                </div>
+              <% end %>
+            </td>
+          <% else %>
+            <td class="align-middle text-center"><h6>No platform product</h6></td>
+          <% end %>
+        <% end %>
+    </tr>
+          <% end %> 
+  </tbody>
+</table>
+
+ <div class="modal fade" id="candidatesModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-3" id="exampleModalLabel">All candidates</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="nav nav-tabs candidate-tabs" id="myTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="located-tab" data-bs-toggle="tab" href="#located" role="tab" aria-controls="located" aria-selected="true">Located</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="approved-tab" data-bs-toggle="tab" href="#approved" role="tab" aria-controls="approved" aria-selected="false">Approved</a>
+            </li>
+          </ul>
+        <div class="modal-body">
+          <div class="tab-content" id="candidatesTabsContent">
+            <div class="tab-pane fade show active" id="located" role="tabpanel" aria-labelledby="located-tab">
+              <table class="table" id="candidatesTable">
+                <thead>
+                  <tr>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <%# render partial: "candidates/index"%>
+              </table>
+            </div>
+            <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved-tab">
+              <div class="input-group mb-3">
+                <label class="input-group-text" for="approvedCandidateUrl">URL:</label>
+                  <input type="text" class="form-control" id="approvedCandidateUrl" value="" readonly>
+              </div>
+            </div>
+           </div>
+         </div>  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<%= javascript_pack_tag 'candidate_modal' %>
+
+
+

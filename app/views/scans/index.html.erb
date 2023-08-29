@@ -1,0 +1,35 @@
+ <% if notice %>
+  <aside class="alert alert-success alert-dismissible fade show mt-3" id="notice"><%= notice %></aside>
+ <% end %> 
+
+<h1>Scans</h1>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col text-end">
+      <%= link_to 'Start Scan', start_scan_scans_path, method: :post, class:'btn btn-success' %>
+    </div>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Scheduled at</th>
+      <th>Audits</th>
+      <th>Delivered</th>
+    </tr>
+  </thead>
+
+    <tbody>
+    <% @scans.each do |scan| %>
+      <tr>
+        <td class="scan_date"><%= link_to scan.created_at.strftime('%Y-%m-%d'), scan_path(scan.id)%></td>
+        <td class="scheduled_date"><%= link_to scan.created_at, scan_path(scan.id)%></td>
+        <td class="audits"><%= @count_per_scan_id[scan.id] || 0 %></td>
+        <td class="delivered_status">true</td>
+      </tr>
+    <% end %>
+    </tbody>
+</table>

@@ -1,0 +1,36 @@
+ <% if notice %>
+  <aside class="alert alert-success alert-dismissible fade show mt-3" id="notice"><%= notice %></aside>
+ <% end %> 
+
+<h1>Scanned Audits</h1>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col text-end">
+    </div>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Platform</th>
+      <th>Price</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+
+    <tbody>
+    <% product_audits = ProductAudit.where(scan_id: @scan.id)%>
+    <% product_audits.each do |product_audit| %>
+      <tr>
+        <td class="audit_name"><%= Product.find_by(id: product_audit.product_id).name%></td>
+        <%# platform_id = PlatformProduct.find_by(product_id: product_audit.product_id).id%>
+        <td class="audit_platform">Platforma za <%= product_audit.id %></td>
+        <td class="audit_price">neka cijena</td>
+        <td class="scan_status">scanned</td>
+      </tr>
+    <% end %>
+    </tbody>
+</table>

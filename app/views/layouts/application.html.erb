@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Products Agregator</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%#= javascript_pack_tag 'logo_preview' %>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="row"> 
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
+          <div class="position-sticky nav-container">
+            <h2 class="title text-center text-white mt-2">PRODUCTS AGGREGATOR</h2>
+            <a href="/" class="img logo rounded-circle mb-5 mt-5"></a>
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" href="/products">PRODUCTS</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/platforms">PLATFORMS</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/scans">SCANS</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <main class='<%= controller.controller_name %> col-md-9 ms-sm-auto col-lg-10 px-md-4'>
+          <%= yield %>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
