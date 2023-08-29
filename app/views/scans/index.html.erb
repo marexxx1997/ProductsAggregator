@@ -7,7 +7,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col text-end">
-      <%= link_to 'Start Scan', "", class:'btn btn-success' %>
+      <%= link_to 'Start Scan', start_scan_scans_path, method: :post, class:'btn btn-success' %>
     </div>
   </div>
 </div>
@@ -23,13 +23,13 @@
   </thead>
 
     <tbody>
-    <%# @scans.each do |scan| %>
+    <% @scans.each do |scan| %>
       <tr>
-        <td class="scan_date"><%= link_to Time.now.strftime('%Y-%m-%d'), scan_path(2)%></td>
-        <td class="scheduled_date"><%= link_to Time.now, scan_path(2)%></td>
-        <td class="audits">1</td>
+        <td class="scan_date"><%= link_to scan.created_at.strftime('%Y-%m-%d'), scan_path(scan.id)%></td>
+        <td class="scheduled_date"><%= link_to scan.created_at, scan_path(scan.id)%></td>
+        <td class="audits"><%= @count_per_scan_id[scan.id] || 0 %></td>
         <td class="delivered_status">true</td>
       </tr>
-    <%# end %>
+    <% end %>
     </tbody>
 </table>

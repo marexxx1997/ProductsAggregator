@@ -22,13 +22,15 @@
   </thead>
 
     <tbody>
-    <%# @scans.each do |scan| %>
+    <% product_audits = ProductAudit.where(scan_id: @scan.id)%>
+    <% product_audits.each do |product_audit| %>
       <tr>
-        <td class="audit_name"></td>
-        <td class="audit_platform"></td>
-        <td class="audit_price"></td>
-        <td class="scan_status"></td>
+        <td class="audit_name"><%= Product.find_by(id: product_audit.product_id).name%></td>
+        <%# platform_id = PlatformProduct.find_by(product_id: product_audit.product_id).id%>
+        <td class="audit_platform">Platforma za <%= product_audit.id %></td>
+        <td class="audit_price">neka cijena</td>
+        <td class="scan_status">scanned</td>
       </tr>
-    <%# end %>
+    <% end %>
     </tbody>
 </table>
