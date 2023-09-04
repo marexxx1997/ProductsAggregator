@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_24_160922) do
+ActiveRecord::Schema.define(version: 2023_08_30_125743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,18 @@ ActiveRecord::Schema.define(version: 2023_08_24_160922) do
     t.index ["product_audit_id"], name: "index_product_audit_prices_on_product_audit_id"
   end
 
+  create_table "product_audit_transitions", force: :cascade do |t|
+    t.string "to_state", null: false
+    t.text "metadata"
+    t.integer "sort_key", null: false
+    t.integer "product_audit_id", null: false
+    t.boolean "most_recent", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_audit_id", "most_recent"], name: "index_product_audit_transitions_parent_most_recent", unique: true, where: "most_recent"
+    t.index ["product_audit_id", "sort_key"], name: "index_product_audit_transitions_parent_sort", unique: true
+  end
+
   create_table "product_audits", force: :cascade do |t|
     t.string "image_url"
     t.bigint "product_id"
@@ -105,8 +117,8 @@ ActiveRecord::Schema.define(version: 2023_08_24_160922) do
   add_foreign_key "product_audit_images", "products"
   add_foreign_key "product_audit_images", "scans"
   add_foreign_key "product_audit_prices", "platform_products"
-  add_foreign_key "product_audit_prices", "product_audit_images", column: "product_audit_id"
   add_foreign_key "product_audit_prices", "product_audits"
+  add_foreign_key "product_audit_transitions", "product_audits"
   add_foreign_key "product_audits", "products"
   add_foreign_key "product_audits", "scans"
 end

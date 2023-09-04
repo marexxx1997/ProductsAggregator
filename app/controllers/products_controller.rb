@@ -30,15 +30,11 @@ class ProductsController < ApplicationController
     respond_to do |format|
       if @product.save
         Platform.all.each do |platform|
-          # // kreirati platform_product
           platform_product = PlatformProduct.create(
             url: platform.url,
-            # state: "initialized",
             product_id: @product.id,
             platform_id: platform.id
           )
-          # // job za taj platfrom_product
-          # platform_product.state_machine.transition_to!(:initialized)
           ProcessPlatformJob.perform_later(platform_product.id)
         end
         

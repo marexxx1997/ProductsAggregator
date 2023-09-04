@@ -1,4 +1,4 @@
-class ProductAuditPrice
+class ProductAuditPrice < ApplicationRecord
     belongs_to :product_audit
     belongs_to :platform_product
 end
