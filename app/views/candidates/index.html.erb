@@ -5,7 +5,7 @@
     <tr>
       <th></th>
       <% Platform.all.each do |platform| %>
-        <th class="text-center"><%= platform.name %></th>
+        <th class="text-center"><%= platform.name.humanize %></th>
       <% end %>
     </tr>
   </thead>

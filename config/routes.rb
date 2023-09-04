@@ -6,8 +6,10 @@ Rails.application.routes.draw do
   get 'candidates', to: 'candidates#index', as: :candidates
   get '/candidates/:platform_id/:platform_product_id', to: 'candidates#show'
   # resources :candidates, only: [:index]
-  resources :scans
-
+  resources :scans do
+    post :start_scan, on: :collection
+  end
+  
   resources :products do
     member do
       post :accept_candidate

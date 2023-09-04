@@ -22,13 +22,29 @@
   </thead>
 
     <tbody>
-    <%# @scans.each do |scan| %>
+    <% product_audits = ProductAudit.where(scan_id: @scan.id)%>
+    <% product_audits.each do |product_audit| %>
       <tr>
-        <td class="audit_name"></td>
-        <td class="audit_platform"></td>
-        <td class="audit_price"></td>
-        <td class="scan_status"></td>
+        <td class="audit_name"><%= Product.find_by(id: product_audit.product_id).name%></td>
+        <%# platform_id = PlatformProduct.find_by(product_id: product_audit.product_id).id%>
+        <% product_audit_price = ProductAuditPrice.find_by(product_audit_id: product_audit.id)%>        
+        <% if product_audit_price %>
+          <% platform_product_id = product_audit_price.platform_product_id%>
+          <% platform_id = PlatformProduct.find_by(id: platform_product_id).platform_id%>
+          <% platform_name = Platform.find_by(id: platform_id).name%>
+          <td class="audit_platform"><%= platform_name%></td>
+          <td class="audit_price"><%= product_audit_price.price %> KM</td>
+        <% else %>
+          <td class="audit_platform">-</td>
+          <td class="audit_price">-</td>
+        <% end %>
+        <% current_state = product_audit.current_state %>
+        <% if current_state == 'finished' %>
+          <td class="scan_status">finished</td>
+        <% else %>
+          <td class="scan_status">error</td>
+        <% end %>      
       </tr>
-    <%# end %>
+    <% end %>
     </tbody>
 </table>
