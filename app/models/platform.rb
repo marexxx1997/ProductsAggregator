@@ -1,5 +1,4 @@
 class Platform < ApplicationRecord
-
     validates :name, :url, :logo_url, presence: true
     validates :name, :url, :logo_url, uniqueness: true
     validates :logo_url, allow_blank: true, format: {
